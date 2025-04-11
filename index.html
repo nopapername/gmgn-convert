@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>gmgn钱包格式转换器</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 40px;
+    }
+    textarea {
+      width: 100%;
+      height: 200px;
+      margin-bottom: 20px;
+      font-family: monospace;
+      padding: 10px;
+      font-size: 14px;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      margin-right: 10px;
+      cursor: pointer;
+    }
+    .output {
+      background: #f4f4f4;
+      padding: 10px;
+      white-space: pre-wrap;
+      border: 1px solid #ccc;
+    }
+    #copySuccess {
+      color: green;
+      margin-top: 10px;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+<h2>gmgn钱包格式转换器</h2>
+<p><a href="https://x.com/ouyoung11/status/1910554281411043424">来自推特用户@ouyoung11</a></p>
+
+<label for="inputJson">gmgn钱包列表：</label>
+<textarea id="inputJson" placeholder="请输入gmgn钱包地址列表"></textarea>
+
+<div>
+  <button onclick="transformJson()">转换</button>
+  <button onclick="copyToClipboard()">复制到剪贴板</button>
+</div>
+
+<p id="copySuccess">✅ 已复制到剪贴板！</p>
+
+<h3>转换后axiom支持的钱包格式输出：</h3>
+<pre class="output" id="outputJson"></pre>
+
+<script>
+  function transformJson() {
+    const input = document.getElementById('inputJson').value;
+    try {
+      const data = JSON.parse(input);
+
+      if (!Array.isArray(data)) {
+        throw new Error("输入的 JSON 必须是数组");
+      }
+
+      const transformed = data.map(item => {
+        if ('remark_address' in item && 'remark_name' in item) {
+          return {
+            trackedWalletAddress: item.remark_address,
+            name: item.remark_name
+          };
+        } else if ('address' in item && 'name' in item) {
+          return {
+            trackedWalletAddress: item.address,
+            name: item.name
+          };
+        } else {
+          return { error: "无法识别的结构", original: item };
+        }
+      });
+
+      document.getElementById('outputJson').textContent = JSON.stringify(transformed, null, 2);
+      document.getElementById('copySuccess').style.display = 'none'; // 重置复制提示
+    } catch (error) {
+      document.getElementById('outputJson').textContent = 'JSON 解析失败，请检查输入格式是否正确。\n错误详情：' + error.message;
+      document.getElementById('copySuccess').style.display = 'none';
+    }
+  }
+
+  function copyToClipboard() {
+    const output = document.getElementById('outputJson').textContent;
+    if (!output.trim()) return;
+
+    navigator.clipboard.writeText(output).then(() => {
+      const successTip = document.getElementById('copySuccess');
+      successTip.style.display = 'block';
+      setTimeout(() => {
+        successTip.style.display = 'none';
+      }, 2000);
+    });
+  }
+</script>
+
+</body>
+</html>
