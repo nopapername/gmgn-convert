@@ -67,12 +67,14 @@
         if ('remark_address' in item && 'remark_name' in item) {
           return {
             trackedWalletAddress: item.remark_address,
-            name: item.remark_name
+            name: item.remark_name,
+            alertsOn: true
           };
         } else if ('address' in item && 'name' in item) {
           return {
             trackedWalletAddress: item.address,
-            name: item.name
+            name: item.name,
+            alertsOn: true
           };
         } else {
           return { error: "无法识别的结构", original: item };
