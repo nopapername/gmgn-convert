@@ -3,6 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <title>gmgn钱包格式转换器</title>
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
     <style>
       body {
         font-family: Arial, sans-serif;
@@ -43,7 +44,14 @@
       >
     </p>
 
-    <label for="inputJson">gmgn钱包列表：</label>
+    
+    <label>1️⃣方法一：导入xxyy导出的钱包 (.xlsx) 文件：</label>
+    <input type="file" id="uploadExcel" />
+
+    <br/>
+    <br/>
+
+    <label for="inputJson">2️⃣方法二：导入gmgn钱包列表（粘贴 JSON 格式）：</label>
     <textarea id="inputJson" placeholder="请输入gmgn钱包地址列表"></textarea>
 
     <div>
@@ -92,7 +100,7 @@
             null,
             2
           );
-          document.getElementById("copySuccess").style.display = "none"; // 重置复制提示
+          document.getElementById("copySuccess").style.display = "none";
         } catch (error) {
           document.getElementById("outputJson").textContent =
             "JSON 解析失败，请检查输入格式是否正确。\n错误详情：" +
@@ -113,21 +121,9 @@
           }, 2000);
         });
       }
+
       function copyToClipboardKOL() {
         const kolAddress = [
-          {
-            trackedWalletAddress:
-              "CNudZYFgpbT26fidsiNrWfHeGTBMMeVWqruZXsEkcUPc",
-            name: "DNF小号",
-            emoji: "👻",
-            alertsOn: true,
-          },
-          {
-            trackedWalletAddress: "SZaWUALgKFaaty5g1VZToPByFvT4viE7xbfBdxZNC9m",
-            name: "降雨機率",
-            emoji: "👻",
-            alertsOn: true,
-          },
           {
             trackedWalletAddress:
               "27sfYMALabHSpjt4nDLAubw5mdDPnv3hkL8K7s2ZM1gU",
@@ -144,8 +140,35 @@
           },
           {
             trackedWalletAddress:
+              "45yBcpnzFTqLYQJtjxsa1DdZkgrTYponCg6yLQ6LQPu6",
+            name: "45（大户极少出手）",
+            emoji: "👻",
+            alertsOn: true,
+          },
+          {
+            trackedWalletAddress:
+              "4Be9CvxqHW6BYiRAxW9Q3xu1ycTMWaL5z8NX4HR3ha7t",
+            name: "mitch（阴谋集团）",
+            emoji: "👻",
+            alertsOn: true,
+          },
+          {
+            trackedWalletAddress:
+              "4FFfyLArmPxhcKREsGLoEx3EwWng9Ggc41kFbz5nmnJz",
+            name: "groktark 新人钱包",
+            emoji: "🐱",
+            alertsOn: true,
+          },
+          {
+            trackedWalletAddress:
               "4qMhJ42sCexUkXgqEkPt9nsyK93d92QeNGKZNyNYPGUb",
             name: "jelly 开发者",
+            emoji: "👻",
+            alertsOn: true,
+          },
+          {
+            trackedWalletAddress: "5KStXSmYqdKLhXUVnoPS8oapugYgYNhv7X4wzF14tvG",
+            name: "cents DEV",
             emoji: "👻",
             alertsOn: true,
           },
@@ -165,10 +188,31 @@
           },
           {
             trackedWalletAddress:
+              "6EDaVsS6enYgJ81tmhEkiKFcb4HuzPUVFZeom6PHUqN3",
+            name: "奶牛",
+            emoji: "🐄",
+            alertsOn: true,
+          },
+          {
+            trackedWalletAddress:
+              "6fdTPs67nxYbz3FriTZm474GPnqytTPVZFsLNnmS4827",
+            name: "方程式新闻",
+            emoji: "👻",
+            alertsOn: true,
+          },
+          {
+            trackedWalletAddress:
               "6jfC9p4jzTBTGpMrbR8H464kNo1SBGNCW17oDETzSJrf",
             name: "Bome 艺术家钱包",
             emoji: "👻",
             alertsOn: true,
+          },
+          {
+            trackedWalletAddress:
+              "6xQa2NRcThDnkStBsinQ2wF4wJkWcUc9qSFT3x3PFoS6",
+            name: "勿上，捆绑地址",
+            emoji: "👻",
+            alertsOn: false,
           },
           {
             trackedWalletAddress:
@@ -193,15 +237,57 @@
           },
           {
             trackedWalletAddress:
+              "82jXFTVu2XwCnG63pGqdf1yAfGMLbmXNzmBE5nupx6YF",
+            name: "徐乐（鸽子）",
+            emoji: "👻",
+            alertsOn: false,
+          },
+          {
+            trackedWalletAddress:
               "8deJ9xeUvXSJwicYptA9mHsU2rN2pDx37KWzkDkEXhU6",
             name: "Cooker 小仓位别跟",
             emoji: "👻",
-            alertsOn: true,
+            alertsOn: false,
           },
           {
             trackedWalletAddress:
               "8iFVg3mMe9CaLcS8Gq3bSYEoZPJSN21DPdmuf38U9Q4Z",
             name: "卢本伟55开",
+            emoji: "👻",
+            alertsOn: true,
+          },
+          {
+            trackedWalletAddress:
+              "8JZSWGQXyukCEYi1oUAqsDHtSHXtNHREzf9b2VdMpo6K",
+            name: "jesse地址（base创始人）",
+            emoji: "👻",
+            alertsOn: true,
+          },
+          {
+            trackedWalletAddress:
+              "8MaVa9kdt3NW4Q5HyNAm1X5LbR8PQRVDc1W8NMVK88D5",
+            name: "daumen（略阴谋）",
+            emoji: "👻",
+            alertsOn: true,
+          },
+          {
+            trackedWalletAddress:
+              "8P1cYYRBqevhBXY4yLurGAQqrCRJZ6BeFjvp3ANHejCn",
+            name: "96岁keyNG",
+            emoji: "👻",
+            alertsOn: true,
+          },
+          {
+            trackedWalletAddress:
+              "8rvAsDKeAcEjEkiZMug9k8v1y8mW6gQQiMobd89Uy7qR",
+            name: "casino浇给佬",
+            emoji: "👻",
+            alertsOn: false,
+          },
+          {
+            trackedWalletAddress:
+              "8zFZHuSRuDpuAR7J6FzwyF3vKNx4CVW3DFHJerQhc7Zd",
+            name: "pow（大户）",
             emoji: "👻",
             alertsOn: true,
           },
@@ -216,6 +302,13 @@
             trackedWalletAddress:
               "97jcXV5TgvwbqZQw7fTqqS3ZuQWfYB19v3GV2DJD3izP",
             name: "deepfates钱包",
+            emoji: "👻",
+            alertsOn: true,
+          },
+          {
+            trackedWalletAddress:
+              "9MVmm1eMuiLXbcEK6Wi6PNRK3pd8rFvAZKhzk5oeYRv2",
+            name: "yelo kol",
             emoji: "👻",
             alertsOn: true,
           },
@@ -256,6 +349,13 @@
           },
           {
             trackedWalletAddress:
+              "BDS1WSRZmRPjmPESRgsv2njGxnzf7zv2L1GE7z6RedtK",
+            name: "疑似ai16z团队",
+            emoji: "👻",
+            alertsOn: true,
+          },
+          {
+            trackedWalletAddress:
               "C3nLTNMK6Ao1s3J1CQhv8GbT3NoMmifWoi9PGEcYd9hP",
             name: "金蛙",
             emoji: "👻",
@@ -265,6 +365,20 @@
             trackedWalletAddress:
               "C8uCFAY8WPwvEudVuQUW62rDHVAjQyVNxcdw5eMZW287",
             name: " 麻瓜猪皮怪⚛️",
+            emoji: "👻",
+            alertsOn: true,
+          },
+          {
+            trackedWalletAddress:
+              "CNudZYFgpbT26fidsiNrWfHeGTBMMeVWqruZXsEkcUPc",
+            name: "DNF小号",
+            emoji: "👻",
+            alertsOn: true,
+          },
+          {
+            trackedWalletAddress:
+              "CRVidEDtEUTYZisCxBZkpELzhQc9eauMLR3FWg74tReL",
+            name: "frank",
             emoji: "👻",
             alertsOn: true,
           },
@@ -305,8 +419,29 @@
           },
           {
             trackedWalletAddress:
+              "EEEEEc4xfLKqnRBRq4wsQVJu9HaN6TuVonx54RGy4WNN",
+            name: "EEE内盘高手",
+            emoji: "👻",
+            alertsOn: true,
+          },
+          {
+            trackedWalletAddress:
               "EfbbhahGNuhqEraRZXrwETfsaKxScngEttdQixWAW4WE",
             name: "搞钱小猫 小仓位别跟",
+            emoji: "👻",
+            alertsOn: true,
+          },
+          {
+            trackedWalletAddress:
+              "EHg5YkU2SZBTvuT87rUsvxArGp3HLeye1fXaSDfuMyaf",
+            name: "til（铁蛋要加油？）",
+            emoji: "👻",
+            alertsOn: false,
+          },
+          {
+            trackedWalletAddress:
+              "EwTNPYTuwxMzrvL19nzBsSLXdAoEmVBKkisN87csKgtt",
+            name: "dnf小号",
             emoji: "👻",
             alertsOn: true,
           },
@@ -328,6 +463,13 @@
             trackedWalletAddress:
               "FEbvMNXxkjVhfLxu5CYZPPHyJpxtWXqq7FMCUsxb4ZcW",
             name: "a16z eliza钱包",
+            emoji: "👻",
+            alertsOn: true,
+          },
+          {
+            trackedWalletAddress:
+              "FQ1W4266r3EJ83NmkEgoCoJThvMiyJzYU5b5RFe5GyYA",
+            name: "ai16z基金会？",
             emoji: "👻",
             alertsOn: true,
           },
@@ -374,10 +516,31 @@
           },
           {
             trackedWalletAddress:
+              "GzrUfAWQCDzdFnrT7sSXaK5HxNA91PGDgQy5JCKmGxtX",
+            name: "D哥新地址（疑似）",
+            emoji: "👻",
+            alertsOn: true,
+          },
+          {
+            trackedWalletAddress:
+              "HaZtFxgw99iM97LxmwFuDW6k4MP1XwsWTGoy7GUoSELj",
+            name: "cobie（交易很牛）",
+            emoji: "👻",
+            alertsOn: true,
+          },
+          {
+            trackedWalletAddress:
               "HJXP9JqEx396xNdg6vNKnrqWvyqXB2f7RDHjTWqbanYc",
             name: "狗教士（老妈互动过）",
             emoji: "👻",
             alertsOn: true,
+          },
+          {
+            trackedWalletAddress:
+              "Hmwd9r3h6868wRRF8bg6QXL2TL7tr9L6bLzPhSeZk9QL",
+            name: "勿上，浇给捆绑地址",
+            emoji: "👻",
+            alertsOn: false,
           },
           {
             trackedWalletAddress:
@@ -392,6 +555,18 @@
             emoji: "👻",
             alertsOn: true,
           },
+          {
+            trackedWalletAddress: "oYYe854PaZtEgEoGb2QZN3MTfrGU1GQQHqqQZFQuV3K",
+            name: "goat地址",
+            emoji: "👻",
+            alertsOn: true,
+          },
+          {
+            trackedWalletAddress: "SZaWUALgKFaaty5g1VZToPByFvT4viE7xbfBdxZNC9m",
+            name: "降雨機率",
+            emoji: "👻",
+            alertsOn: true,
+          },
         ];
 
         navigator.clipboard.writeText(JSON.stringify(kolAddress)).then(() => {
@@ -402,6 +577,39 @@
           }, 2000);
         });
       }
+
+      // 👉 Excel 导入转换功能
+      document
+        .getElementById("uploadExcel")
+        .addEventListener("change", function (e) {
+          const file = e.target.files[0];
+          const reader = new FileReader();
+          reader.onload = function (event) {
+            const data = new Uint8Array(event.target.result);
+            const workbook = XLSX.read(data, { type: "array" });
+            const firstSheet = workbook.Sheets[workbook.SheetNames[0]];
+            const jsonData = XLSX.utils.sheet_to_json(firstSheet, {
+              header: 1,
+            });
+
+            const filteredData = jsonData.filter((row) => row.length > 0);
+
+            const result = filteredData.map((item) => ({
+              trackedWalletAddress: item[1],
+              name: item[0],
+              emoji: item[2] || "👻",
+              alertsOn: true,
+            }));
+
+            document.getElementById("outputJson").textContent = JSON.stringify(
+              result,
+              null,
+              2
+            );
+            document.getElementById("copySuccess").style.display = "none";
+          };
+          reader.readAsArrayBuffer(file);
+        });
     </script>
   </body>
 </html>
